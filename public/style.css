@@ -1,0 +1,49 @@
+body {
+
+    background-color: dodgerblue;
+}
+
+.navbar {
+    background-color: darkblue;
+    color: white;
+    display: flex;
+    justify-content: space-around;
+    height: 75px;
+    align-items: center;
+    font-size: 30px;
+  }
+
+  .nav-list {
+    list-style-type: none;
+  }
+  
+  .nav-list,
+  .list-item {
+    display: inline-block;
+    padding: 20px 10px;
+  }
+  
+  .list-item {
+    align-items: right;
+  }
+
+  .navbar a {
+    color: white;
+    text-decoration: none;
+  }
+
+  .guess-container {
+    display: inline-grid;
+    grid-template-columns: auto auto auto auto auto;
+    background-color: #2196F3;
+    padding: 10px;
+  }
+  
+  .grid-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    font-size: 30px;
+    text-align: center;
+    width: 40px;
+  }
