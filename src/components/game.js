@@ -33,31 +33,28 @@ const Game = (props) => {
 
     }
 
-    const changeColor = (row) => {
+    const changeColor = (begin, end) => {
 
-        switch(row) {
-            case "row1":
-                for (let i = 1; i <= 5; i++) {
-                    //I need to put the next 2 statements in a for loop to change the background color
-                    //to green for a correct letter in a correct spot and yellow for a correct letter in
-                    //a wrong spot.
-                    let letter = document.getElementById(i).value;
-                    console.log("Letter is ", letter);
-                    let index = currentWord.indexOf(letter);
-                    if (index !== -1) {
-                        if (index === (i - 1)) {
-                            console.log("The letter exists and it's in the right place");
-                            document.getElementById(index).backgroundColor = "#00FF00";
-                        } else {
-                            console.log("The letter exists but it's not in the right place");
-                            document.getElementById(index).backgroundColor = "#FFFF00";
-                        }
-                    } else {
-                        console.log("The letter does not exist");
-                    }
+        for (let i = begin; i <= end; i++) {
+            //I need to put the next 2 statements in a for loop to change the background color
+            //to green for a correct letter in a correct spot and yellow for a correct letter in
+            //a wrong spot.
+            let letter = document.getElementById(i).value;
+            console.log("Letter is ", letter);
+            let index = currentWord.indexOf(letter);
+            if (index !== -1) {
+                if (index === (i - begin)) {
+                    console.log("The letter exists and it's in the right place");
+                    document.getElementById(i).style.backgroundColor = "#00FF00";
+                } else {
+                    console.log("The letter exists but it's not in the right place");
+                    document.getElementById(i).style.backgroundColor = "#FFFF00";
                 }
-                break;
+            } else {
+                console.log("The letter does not exist");
             }
+             
+        }
     }
 
     const checkGuess = (row) => {
@@ -67,7 +64,7 @@ const Game = (props) => {
         switch(row) {
             case "firstguess":
                 //First change colors of squares based on correct letters, incorrect letters, and correct letters in the right place
-                changeColor("row1");
+                changeColor(1, 5);
                 //I will have to pass in a string built from the squares in the firstguess row
                 solved = isSolved();
                 if (!solved) {
@@ -77,6 +74,15 @@ const Game = (props) => {
                 }
                 break;
             case "secondguess":
+                //First change colors of squares based on correct letters, incorrect letters, and correct letters in the right place
+                changeColor(6, 10);
+                //I will have to pass in a string built from the squares in the firstguess row
+                solved = isSolved();
+                if (!solved) {
+                    for (let i = 11; i <= 15; i++) {
+                        document.getElementById(i).disabled = false;
+                    }
+                }
                 break;
             case "thirdguess":
                 break;
@@ -89,21 +95,7 @@ const Game = (props) => {
             default:
                 break;
         }
-        
-        /*
-        if (index !== -1) {
-            console.log("Index is " + index + " and i is " + id);
-            if (index === (id - 1)) {
-                console.log("The letter exists and it's in the right place");
-            } else {
-                console.log("The letter exists but it's not in the right place");
-            }
-        } else {
-            console.log("The letter does NOT exist");
-            document.getElementById(id).background = "#ff0000";
-        }*/
-
-    }
+     }
 
     return(
         <>
