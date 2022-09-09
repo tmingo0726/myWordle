@@ -8,7 +8,15 @@ import Game from './components/game';
 
 const App = () => {
 
-    let currentUser = "Muzzy";
+    const [currentUser, setCurrentUser] = useState("Muzzy");
+    const [currentRow, setCurrentRow] = useState(1);
+    
+
+    useEffect(() => {
+
+        setCurrentRow(currentRow);
+
+    }, [currentRow]);
 
 return (
         <div>
@@ -24,7 +32,7 @@ return (
 
            <Routes>
               <Route  path='/about' element={<About />}></Route>
-              <Route  path='/game' element={<Game currentUser={currentUser}/>}></Route>
+              <Route  path='/game' element={<Game currentUser={currentUser} currentRow={currentRow}/>}></Route>
 
            </Routes>
         </div>
