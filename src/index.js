@@ -18,7 +18,7 @@ const App = () => {
 
     }, [currentRow]);
 
-return (
+    return (
         <div>
            <nav className="navbar">My Wordle
               <ul className="nav-list">
