@@ -46,6 +46,15 @@ body {
     font-size: 30px;
     text-align: center;
     width: 40px;
+    cursor: none;
   }
+
+  input {
+
+    color: transparent;
+    text-shadow: 0 0 0 #030c13;
+  }
+
+
 
  
