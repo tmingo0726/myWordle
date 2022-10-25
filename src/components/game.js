@@ -78,16 +78,25 @@ const Game = (props) => {
             //How do we retrieve the other indexOf?
             let index = currentWord.indexOf(letter);
             let index2 = currentWord.lastIndexOf(letter);
+            let indexStr = "";
+            let idx;
+
             console.log("Index is " + index + " index2 is " +  index2);
             
             if (index !== -1) {
                 if (index === (i - begin)) {
                     console.log("The letter exists and it's in the right place");
+                    idx = alphabet.indexOf(letter.toLowerCase());
+                    indexStr = "b" + (idx + 1)
                     document.getElementById(i).style.backgroundColor = "#00FF00";
+                    document.getElementById(indexStr).style.backgroundColor = "#66FF00";
                 } else if (index2 !== -1 && index2 !== index) {
                     if (index2 === (i - begin)) {
                         console.log("The letter exists and it's in the right place");
+                        idx = alphabet.indexOf(letter.toLowerCase());
+                        indexStr = "b" + (idx + 1)
                         document.getElementById(i).style.backgroundColor = "#00FF00";
+                        document.getElementById(indexStr).style.backgroundColor = "#66FF00";
                     }
                 } else {
                     console.log("The letter exists but it's not in the right place");
@@ -99,8 +108,8 @@ const Game = (props) => {
                 //what not to play.
                 badLetterArray.push(letter);
                 //console.log("Bad letters are ", badLetterArray);
-                const idx = alphabet.indexOf(letter.toLowerCase());
-                let indexStr = "b" + (idx + 1);
+                idx = alphabet.indexOf(letter.toLowerCase());
+                indexStr = "b" + (idx + 1);
                 console.log("Index Str is :", indexStr);
                 document.getElementById(indexStr).style.backgroundColor = "gray";
             }
