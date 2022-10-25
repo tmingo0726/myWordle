@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 
+const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 const Game = (props) => {
 
     const currentUser = props.currentUser;
@@ -23,7 +24,11 @@ const Game = (props) => {
             elements[i].addEventListener('keyup', moveCursor(1));
             elements[i].addEventListener('input', moveCursor(1));
             elements[i].addEventListener('keypress', moveCursor(1));
-            
+        }
+
+        for (let i = 0; i < alphabet.length; i++) {
+            let indexStr = "b" + (i + 1);
+            document.getElementById(indexStr).value = alphabet[i];
         }
         
 
@@ -93,9 +98,11 @@ const Game = (props) => {
                 //We need to keep track of these letters to display to the user
                 //what not to play.
                 badLetterArray.push(letter);
-                console.log("Bad letters are ", badLetterArray);
-                document.getElementById("badLetterLabel").innerHTML = badLetterArray;
-
+                //console.log("Bad letters are ", badLetterArray);
+                const idx = alphabet.indexOf(letter.toLowerCase());
+                let indexStr = "b" + (idx + 1);
+                console.log("Index Str is :", indexStr);
+                document.getElementById(indexStr).style.backgroundColor = "gray";
             }
         }
     }
@@ -150,24 +157,50 @@ const Game = (props) => {
             <input id="16" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("16")}></input>
             <input id="17" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("17")} ></input>
             <input id="18" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("18")}></input>
-            <input id="19" type="text" class="grid-item" maxLength="1" onBlur={() => checkLetter("19")}></input>
-            <input id="20" type="text" class="grid-item" maxLength="1" onChange={() => checkGuess(16, 20)}></input>
-            <input id="21" type="text" class="grid-item" maxLength="1" onBlur={() => checkLetter("21")}></input>
-            <input id="22" type="text" class="grid-item" maxLength="1" onBlur={() => checkLetter("22")}></input>
-            <input id="23" type="text" class="grid-item" maxLength="1" onBlur={() => checkLetter("23")}></input>
-            <input id="24" type="text" class="grid-item" maxLength="1" onBlur={() => checkLetter("24")}></input>
-            <input id="25" type="text" class="grid-item" maxLength="1" onChange={() => checkGuess(21, 25)}></input>
-            <input id="26" type="text" class="grid-item" maxLength="1" onBlur={() => checkLetter("26")} ></input>
-            <input id="27" type="text" class="grid-item" maxLength="1" onBlur={() => checkLetter("27")} ></input>
-            <input id="28" type="text" class="grid-item" maxLength="1" onBlur={() => checkLetter("28")}></input>
-            <input id="29" type="text" class="grid-item" maxLength="1" onBlur={() => checkLetter("29")}></input>
-            <input id="30" type="text" class="grid-item" maxLength="1" onChange={() => checkGuess(26, 30)}></input>
+            <input id="19" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("19")}></input>
+            <input id="20" type="text" className="grid-item" maxLength="1" onChange={() => checkGuess(16, 20)}></input>
+            <input id="21" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("21")}></input>
+            <input id="22" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("22")}></input>
+            <input id="23" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("23")}></input>
+            <input id="24" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("24")}></input>
+            <input id="25" type="text" className="grid-item" maxLength="1" onChange={() => checkGuess(21, 25)}></input>
+            <input id="26" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("26")} ></input>
+            <input id="27" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("27")} ></input>
+            <input id="28" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("28")}></input>
+            <input id="29" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("29")}></input>
+            <input id="30" type="text" className="grid-item" maxLength="1" onChange={() => checkGuess(26, 30)}></input>
         </form>
-        <label id="badLetterLabel">Bad Letters</label>
+        <label id="badLetterLabel"></label>
+        <container className="bad-letters-container">
+            <input id="b1" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b2" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b3" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b4" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b5" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b6" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b7" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b8" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b9" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b10" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b11" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b12" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b13" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b14" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b15" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b16" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b17" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b18" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b19" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b20" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b21" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b22" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b23" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b24" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b25" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b26" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
+        </container>
         </>
-
-    )
-
+    )  
 }
 
 export default Game;

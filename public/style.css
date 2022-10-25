@@ -35,7 +35,7 @@ body {
   .guess-container {
     display: inline-grid;
     grid-template-columns: auto auto auto auto auto;
-    background-color: #2196F3;
+    background-color: #1b7fe4;
     padding: 10px;
   }
   
@@ -46,6 +46,23 @@ body {
     font-size: 30px;
     text-align: center;
     width: 40px;
+    cursor: none;
+  }
+
+  .bad-letters-container {
+    display: inline-grid;
+    grid-template-columns: auto auto auto auto auto auto auto auto;
+    background-color: #2196F3;
+    padding: 10px;
+  }
+
+  .badletter {
+    background-color: white;
+    border: 1px solid black;
+    padding: 20px;
+    font-size: 11px;
+    text-align: center;
+    width: 10px;
     cursor: none;
   }
 
