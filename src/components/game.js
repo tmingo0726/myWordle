@@ -5,9 +5,15 @@ const Game = (props) => {
 
     const currentUser = props.currentUser;
     const currentRow = props.currentRow;
+    const currentLetter = props.currentLetter;
+    const setCurrentLetter = props.setCurrentLetter;
 
     const currentWord = "TESTY";
     let badLetterArray = [];
+    let twoDArray =  new Array(2);
+    let letterToCheck = '';
+
+
     
 
     useEffect(() => {
@@ -21,8 +27,8 @@ const Game = (props) => {
         let elements = document.getElementsByClassName("grid-item");
         for (let i = 0; i < elements.length; i++) {
             elements[i].tabindex = i + 1;
-            elements[i].addEventListener('keyup', moveCursor(1));
-            elements[i].addEventListener('input', moveCursor(1));
+            //elements[i].addEventListener('keyup', moveCursor(1));
+            //elements[i].addEventListener('input', moveCursor(1));
             elements[i].addEventListener('keypress', moveCursor(1));
         }
 
@@ -30,19 +36,21 @@ const Game = (props) => {
             let indexStr = "b" + (i + 1);
             document.getElementById(indexStr).value = alphabet[i];
         }
-        
 
     }, []);
 
-    const checkLetter = (id) => {
+    //useEffect(() => {
+    //    console.log("Inside useEffect for change in letter");
+    //},currentLetter);
 
-        let letter = "";
+    const checkLetter = async (id) => {
+
+        //let letter = "";
         
-        letter = document.getElementById(id).value;
-        document.getElementById(id).value = letter.toUpperCase();
-        
-       
-        if (!letter) {
+        letterToCheck = document.getElementById(id).value;
+        document.getElementById(id).value = letterToCheck.toUpperCase();
+               
+        if (!letterToCheck) {
             //remain on this input control until a letter is entered
             document.getElementById(id).focus();
         } else {
@@ -50,6 +58,9 @@ const Game = (props) => {
             let i = Number(id);
             i++;
             document.getElementById(i).focus();
+            console.log("about to call setCurrentLetter");
+            await setCurrentLetter(letterToCheck);
+            console.log("Current Letter is :", currentLetter);
         }
     }
 
@@ -67,6 +78,8 @@ const Game = (props) => {
 
     const changeColor = (begin, end) => {
 
+        let num_occurrences = 0;
+
         for (let i = begin; i <= end; i++) {
             //I need to put the next 2 statements in a for loop to change the background color
             //to green for a correct letter in a correct spot and yellow for a correct letter in
@@ -76,6 +89,16 @@ const Game = (props) => {
 
             //What if the letter occurs twice in a word?
             //How do we retrieve the other indexOf?
+
+            //Let's see how many times the letter occurs in the word
+            //for (i = 0; i < 5; i++) {
+                //if (currentWord[i] === letter) {
+                    //num_occurrences++;
+                //}
+            //}
+
+            console.log ("Letter " + letter + " occurs " + num_occurrences + " times.");
+
             let index = currentWord.indexOf(letter);
             let index2 = currentWord.lastIndexOf(letter);
             let indexStr = "";
@@ -118,11 +141,10 @@ const Game = (props) => {
 
     const moveCursor = (index) => {
 
-
         console.log("Tab Index for this element is ", document.activeElement.tabindex);
         index++;
         console.log("inside moveCursor");
-        document.getElementById(index).focus();
+        document.getElementById(index).style.autofocus;
 
     }
 
@@ -138,6 +160,7 @@ const Game = (props) => {
             for (let i = (begin + 5); i <= (end + 5); i++) {
                 document.getElementById(i).disabled = false;
             }
+            document.getElementById(begin + 5).focus();
         } else {
             alert("Great job " + currentUser + " you solved the puzzle!");
         }
@@ -148,35 +171,35 @@ const Game = (props) => {
         <h1>Current Player : {currentUser}</h1>
         <hr></hr>
         <form className="guess-container">
-            <input id="1" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("1")}></input>
-            <input id="2" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("2")}></input>
-            <input id="3" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("3")}></input>
-            <input id="4" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("4")}></input>
+            <input id="1" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("1")}></input>
+            <input id="2" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("2")}></input>
+            <input id="3" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("3")}></input>
+            <input id="4" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("4")}></input>
             <input id="5" type="text" className="grid-item" maxLength="1" onChange={() => checkGuess(1, 5)}></input>
-            <input id="6" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("6")}></input>
-            <input id="7" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("7")}></input>
-            <input id="8" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("8")}></input>
-            <input id="9" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("9")}></input>
+            <input id="6" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("6")}></input>
+            <input id="7" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("7")}></input>
+            <input id="8" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("8")}></input>
+            <input id="9" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("9")}></input>
             <input id="10" type="text" className="grid-item" maxLength="1" onChange={() => checkGuess(6, 10)}></input>
-            <input id="11" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("11")}></input>
-            <input id="12" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("12")}></input>
-            <input id="13" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("13")}></input>
-            <input id="14" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("14")}></input>
+            <input id="11" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("11")}></input>
+            <input id="12" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("12")}></input>
+            <input id="13" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("13")}></input>
+            <input id="14" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("14")}></input>
             <input id="15" type="text" className="grid-item" maxLength="1" onChange={() => checkGuess(11, 15)}></input>
-            <input id="16" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("16")}></input>
-            <input id="17" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("17")} ></input>
-            <input id="18" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("18")}></input>
-            <input id="19" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("19")}></input>
+            <input id="16" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("16")}></input>
+            <input id="17" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("17")} ></input>
+            <input id="18" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("18")}></input>
+            <input id="19" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("19")}></input>
             <input id="20" type="text" className="grid-item" maxLength="1" onChange={() => checkGuess(16, 20)}></input>
-            <input id="21" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("21")}></input>
-            <input id="22" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("22")}></input>
-            <input id="23" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("23")}></input>
-            <input id="24" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("24")}></input>
+            <input id="21" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("21")}></input>
+            <input id="22" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("22")}></input>
+            <input id="23" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("23")}></input>
+            <input id="24" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("24")}></input>
             <input id="25" type="text" className="grid-item" maxLength="1" onChange={() => checkGuess(21, 25)}></input>
-            <input id="26" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("26")} ></input>
-            <input id="27" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("27")} ></input>
-            <input id="28" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("28")}></input>
-            <input id="29" type="text" className="grid-item" maxLength="1" onBlur={() => checkLetter("29")}></input>
+            <input id="26" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("26")} ></input>
+            <input id="27" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("27")} ></input>
+            <input id="28" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("28")}></input>
+            <input id="29" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("29")}></input>
             <input id="30" type="text" className="grid-item" maxLength="1" onChange={() => checkGuess(26, 30)}></input>
         </form>
         <label id="badLetterLabel"></label>

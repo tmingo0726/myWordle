@@ -10,11 +10,13 @@ const App = () => {
 
     const [currentUser, setCurrentUser] = useState("Muzzy");
     const [currentRow, setCurrentRow] = useState(1);
+    const [currentLetter, setCurrentLetter] = useState('');
     
 
     useEffect(() => {
 
         setCurrentRow(currentRow);
+        setCurrentLetter('');
 
     }, [currentRow]);
 
@@ -32,7 +34,8 @@ const App = () => {
 
            <Routes>
               <Route  path='/about' element={<About />}></Route>
-              <Route  path='/game' element={<Game currentUser={currentUser} currentRow={currentRow}/>}></Route>
+              <Route  path='/game' element={<Game currentUser={currentUser} currentRow={currentRow}
+                                            currentLetter={currentLetter} setCurrentLetter={setCurrentLetter}/>}></Route>
 
            </Routes>
         </div>
