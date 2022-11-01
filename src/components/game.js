@@ -242,6 +242,7 @@ const Game = (props) => {
             <input id="b25" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
             <input id="b26" tabindex="-1" type="text" className="badletter" maxLength="1"></input>
         </container>
+        <button onClick={() => location.reload(false)}>New Game</button>
         </>
     )  
 }
