@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 
 const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+let currentWord = "";
 const Game = (props) => {
 
     const currentUser = props.currentUser;
@@ -8,14 +9,10 @@ const Game = (props) => {
     const currentLetter = props.currentLetter;
     const setCurrentLetter = props.setCurrentLetter;
 
-    const currentWord = "TESTY";
     let badLetterArray = [];
     let twoDArray =  new Array(2);
     let letterToCheck = '';
-
-
     
-
     useEffect(() => {
 
         //On the first time in I need to disable all rows except for the first row.
@@ -37,11 +34,20 @@ const Game = (props) => {
             document.getElementById(indexStr).value = alphabet[i];
         }
 
-    }, []);
+        //Now let's grab a random 5 letter word
+        //First let's check to see if the word entered is a real word
+        const grabWord = async() => {
+            let rand = Math.floor(Math.random() * 99);
+            const response = await fetch("https://api.datamuse.com/words?sp=?????");
+            const result = await response.json();
+            currentWord = result[rand].word.toUpperCase();
+            console.log("The current word is ", currentWord);
+        }
+        
+        grabWord();
 
-    //useEffect(() => {
-    //    console.log("Inside useEffect for change in letter");
-    //},currentLetter);
+
+    }, []);
 
     const checkLetter = async (id) => {
 
@@ -79,6 +85,8 @@ const Game = (props) => {
     const changeColor = (begin, end) => {
 
         let num_occurrences = 0;
+
+        console.log("In changeColor and CURRENT WORD:", currentWord);
 
         for (let i = begin; i <= end; i++) {
             //I need to put the next 2 statements in a for loop to change the background color
@@ -148,7 +156,7 @@ const Game = (props) => {
 
     }
 
-    const checkGuess = (begin, end) => {
+    const checkGuess = async(begin, end) => {
 
         let letter = document.getElementById(end).value;
         document.getElementById(end).value = letter.toUpperCase();
@@ -162,6 +170,9 @@ const Game = (props) => {
             }
             document.getElementById(begin + 5).focus();
         } else {
+            for (i = begin; i < end; i++) {
+                document.getElementById(i).style.backgroundColor = "#00FF00";
+            }
             alert("Great job " + currentUser + " you solved the puzzle!");
         }
     }
