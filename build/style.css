@@ -7,7 +7,7 @@ body {
     background-color: darkblue;
     color: white;
     display: flex;
-    justify-content: right;
+    justify-content: space-around;
     height: 75px;
     align-items: center;
     font-size: 30px;
@@ -15,8 +15,6 @@ body {
 
   .nav-list {
     list-style-type: none;
-    justify-content: right;
-    display: inline-block;
   }
   
   .nav-list,
@@ -36,55 +34,37 @@ body {
 
   .guess-container {
     display: inline-grid;
-    /*display: inline-flexbox;*/
     grid-template-columns: auto auto auto auto auto;
     background-color: #1b7fe4;
-    padding: 5px;
+    padding: 10px;
   }
   
   .grid-item {
     background-color: rgba(255, 255, 255, 0.8);
     border: 1px solid rgba(0, 0, 0, 0.8);
     padding: 20px;
-    font-size: 20px;
+    font-size: 30px;
     text-align: center;
-    width: 20px;
-    height: 10px;
+    width: 40px;
     cursor: none;
-  }
-
-  .vl {
-    border-left: 6px solid green;
-    height: 500px;
-    position: absolute;
-    left: 50%;
-    margin-left: -3px;
-    top: 10px;
   }
 
   .bad-letters-container {
     display: inline-grid;
     grid-template-columns: auto auto auto auto auto auto auto;
     background-color: #2196F3;
-    padding: 5px;
-    flex: 1;
+    padding: 10px;
   }
 
   .badletter {
     background-color: white;
     border: 1px solid black;
     padding: 20px;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bolder;
     text-align: center;
     width: 10px;
-    height: 5px;
     cursor: none;
-  }
-
-  .newGameBtn {
-    border-width: thick;
-    border-color: green
   }
 
   input {
@@ -92,12 +72,6 @@ body {
     color: transparent;
     text-shadow: 0 0 0 #030c13;
   }
-
- .icon {
-    padding-left: 20px;
-    padding-top: 15px;
-    min-width: 20px;
-}
 
 
 

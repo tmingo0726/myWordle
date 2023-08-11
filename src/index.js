@@ -22,7 +22,7 @@ const App = () => {
 
     return (
         <div>
-           <nav className="navbar">My Wordle
+            <nav className="navbar">Mingo's Wordle
               <ul className="nav-list">
                 <li className="list-item"><Link to="/game">Game  </Link></li>
                 {/*<li className="list-item"><Link to="/profile">Profile   </Link></li>

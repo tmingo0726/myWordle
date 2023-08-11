@@ -1,0 +1,330 @@
+import { useEffect } from "react";
+
+const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+let currentWord = "";
+let colorArray = [30];
+let globalID;
+let globalGuessWord = "";
+
+
+const Game = (props) => {
+
+    const currentUser = props.currentUser;
+    const currentRow = props.currentRow;
+    const currentLetter = props.currentLetter;
+    const setCurrentLetter = props.setCurrentLetter;
+
+    let badLetterArray = [];
+    let twoDArray =  new Array(2);
+    let letterToCheck = '';
+    
+    
+    useEffect(() => {
+
+        //On the first time in I need to disable all rows except for the first row.
+        //As a player finishes a row, only the next row gets enabled.
+        for (let i = 6; i <= 30; i++) {
+            document.getElementById(i).disabled = true;
+        }
+        document.getElementById(1).focus();
+        let elements = document.getElementsByClassName("grid-item");
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].tabindex = i + 1;
+            //elements[i].addEventListener('keyup', moveCursor(1));
+            //elements[i].addEventListener('input', moveCursor(1));
+            elements[i].addEventListener('keypress', moveCursor(1));
+        }
+
+        for (let i = 0; i < alphabet.length; i++) {
+            let indexStr = "b" + (i + 1);
+            document.getElementById(indexStr).value = alphabet[i];
+        }
+
+        //Now let's grab a random 5 letter word
+        //First let's check to see if the word entered is a real word
+        const grabWord = async() => {
+            let rand = Math.floor(Math.random() * 99);
+            const response = await fetch("https://api.datamuse.com/words?sp=?????");
+            const result = await response.json();
+            currentWord = result[rand].word.toUpperCase();
+            console.log("The current word is ", currentWord);
+        }
+        
+        //grabWord();
+        currentWord = "ISSUE";
+
+
+    }, []);
+
+    const occursMultipleTimes = (letter) => {
+
+        let count = 0;
+
+        for (let i = 0; i < 5; i++) {
+            if (currentWord[i] == letter ) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    const greensAndYellowExist = (index, letter, subtractor) => {
+
+        /*
+        /* TVMDEBUG: I think I need to build the color array for the guess and then
+        /*           make the necessary changes to the displayed guess on the site.
+        */
+        for (let i = subtractor; i < subtractor + 5; i++) {
+            if ((colorArray[i-1] == "Y" || colorArray[i-1] == "G") && ((letter == globalGuessWord[i-1]) && (index != i))) {
+                console.log("We found that letter ", letter, " already was found at index ", i-1, " and is the color ", colorArray[i-1]);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    const checkLetter = async (id, subtractor) => {
+
+                
+        letterToCheck = document.getElementById(id).value;
+        document.getElementById(id).value = letterToCheck.toUpperCase();
+        console.log("Inside checkLetter and current word is ", currentWord);
+        let retVal = 0;
+
+        globalID = id;               
+        if (!letterToCheck) {
+            //remain on this input control until a letter is entered
+            console.log("Are we coming here for the last letter????");
+            document.getElementById(id).focus();
+        } else {
+            //set focus on the next tab item
+            if (id <= 30) {
+                let i = Number(id);
+                console.log("Inside CheckLetter and i is ", i);
+                if (i < 30 && i % 5 != 0) {
+                    document.getElementById(i+1).focus();
+                }
+                setCurrentLetter(letterToCheck);
+                console.log("Current Letter is : ", letterToCheck, " and subtractor is ", subtractor);
+                retVal = occursMultipleTimes(letterToCheck.toUpperCase());
+            
+                let char = currentWord.charAt(i - subtractor);
+                if (char == letterToCheck.toUpperCase()) {
+                    //console.log("A REAL TEST THAT SAYS THE CHARACTER IS IN THE RIGHT PLACE");
+                    colorArray[i - 1] = "G";
+                // I need to check if the player entered a letter twice but only occurs
+                // once AND that it has already been guessed. If so then make this color array
+                // index B
+                } else if (retVal == 1 && greensAndYellowExist(i, letterToCheck, subtractor)) {
+                    console.log("Only occurs once and has already been found");
+                    colorArray[i - 1] = "B";
+                } else if (retVal == 1) {
+                    colorArray[i - 1] = "Y";
+                } else if (retVal > 1) {
+                    console.log("Not in the right place but occurs multiple times");
+                    colorArray[i - 1] = "Y";
+                } else if (currentWord.indexOf(letterToCheck.toUpperCase()) !== -1) {
+                    colorArray[i - 1] = "Y";
+                } else {
+                    //B is for Black or letter does NOT exist
+                    //BUT, just because it doesn't match for this index doesn't mean it 
+                    //doesn't exist somewhere else in the string.
+                    colorArray[i - 1] = "B";
+                }
+            }
+        }
+        if (!(id % 5)) {
+            console.log("Color Array is ", colorArray);
+            //checkGuess(id - 4, id);
+        }
+    }
+
+    const isSolved = (begin, end) => {
+
+        for (let i = begin; i <= end; i++) {
+            if (document.getElementById(i).style.backgroundColor !== "rgb(0, 255, 0)") {
+                console.log("We are not solved yet ", document.getElementById(i).style.backgroundColor);
+                //colorArray.length = 0;
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    const CHANGECOLOR = async (begin, end) => {
+
+        console.log("In CHANGECOLOR and begin is ", begin, " and end is ", end);
+        let idx;
+        let indexStr = " ";
+
+        for (let i = begin; i <= end; i++) {
+
+            let letter = document.getElementById(i).value.toUpperCase();
+
+            let c = colorArray[i - 1];
+            switch(c) {
+
+                case "G":
+                    console.log("Position ", i, " is Green");
+                    idx = alphabet.indexOf(letter.toLowerCase());
+                    indexStr = "b" + (idx + 1)
+                    document.getElementById(i).style.backgroundColor = "#00FF00";
+                    document.getElementById(indexStr).style.backgroundColor = "#66FF00";
+                    break;
+                case "B":
+                    console.log("Postion ", i, " is Black");
+                    badLetterArray.push(letter);
+                    idx = alphabet.indexOf(letter.toLowerCase());
+                    indexStr = "b" + (idx + 1);
+                    console.log("Index Str is :", indexStr);
+                    document.getElementById(indexStr).style.backgroundColor = "gray";
+                    break;
+                case "Y":
+                    console.log("Postion ", i, " is Yellow");
+                    badLetterArray.push(letter);
+                    idx = alphabet.indexOf(letter.toLowerCase());
+                    indexStr = "b" + (idx + 1);
+                    console.log("Index Str is :", indexStr);
+                    document.getElementById(i).style.backgroundColor = "yellow";
+                    document.getElementById(indexStr).style.backgroundColor = "yellow";
+                    break;
+                default:
+                    console.log("Position ", i, " is default");
+                    break;
+            }
+        }
+
+    }
+
+    const moveCursor = (index) => {
+
+        console.log("Tab Index for this element is ", document.activeElement.tabindex);
+        index++;
+        console.log("inside moveCursor");
+        document.getElementById(index).style.autofocus;
+
+    }
+
+    const checkGuess = async(begin, end) => {
+
+        let letter = document.getElementById(end).value;
+        document.getElementById(end).value = letter.toUpperCase();
+        
+        //First change colors of squares based on correct letters, incorrect letters, and correct letters in the right place
+        await CHANGECOLOR(begin, end);
+        //I will have to pass in a string built from the squares in the firstguess row
+        if (!isSolved(begin, end)) {
+            for (let i = begin + 5; i <= end + 5; i++) {
+                document.getElementById(i).disabled = false;
+            }
+            document.getElementById(begin + 5).focus();
+        } else {
+            for (let i = begin + 5; i <= 30; i++) {
+                document.getElementById(i).style.backgroundColor = "gray";
+                document.getElementById(i).disabled = true;
+            }
+        }
+        alert("Great job " + currentUser + " you solved the puzzle!");
+    }
+
+    const grabGuessWord = (begin, end) => {
+
+        globalGuessWord = "";
+        for (let i = begin; i <= end; i++) {
+            globalGuessWord += document.getElementById(i).value;
+        }
+
+        console.log("Global guess word is ", globalGuessWord);
+    }
+
+    const submitGuess = () => {
+
+        grabGuessWord(globalID - 4, globalID);
+        console.log("Inside submit guess and guess word is ", globalGuessWord);
+        if (globalGuessWord.length == 5) {
+            checkGuess(globalID - 4, globalID);
+        } else {
+            console.log("Enter a guess word first");
+        }
+
+    }
+
+    const backUp = () => {
+
+        console.log("Inside back up");
+    }
+
+    return(
+        <>
+        <h1>Current Player : {currentUser}</h1>
+        <hr></hr>
+        <form className="guess-container">
+            <input id="1" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("1", 1)}></input>
+            <input id="2" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("2", 1)}></input>
+            <input id="3" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("3", 1)}></input>
+            <input id="4" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("4", 1)}></input>
+            <input id="5" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("5", 1)}></input>
+            <input id="6" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("6", 6)}></input>
+            <input id="7" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("7", 6)}></input>
+            <input id="8" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("8", 6)}></input>
+            <input id="9" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("9", 6)}></input>
+            <input id="10" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("10", 6)}></input>
+            <input id="11" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("11", 11)}></input>
+            <input id="12" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("12", 11)}></input>
+            <input id="13" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("13", 11)}></input>
+            <input id="14" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("14", 11)}></input>
+            <input id="15" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("15", 11)}></input>
+            <input id="16" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("16", 16)}></input>
+            <input id="17" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("17", 16)} ></input>
+            <input id="18" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("18", 16)}></input>
+            <input id="19" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("19", 16)}></input>
+            <input id="20" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("20", 16)}></input>
+            <input id="21" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("21", 21)}></input>
+            <input id="22" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("22", 21)}></input>
+            <input id="23" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("23", 21)}></input>
+            <input id="24" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("24", 21)}></input>
+            <input id="25" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("25", 21)}></input>
+            <input id="26" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("26", 26)} ></input>
+            <input id="27" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("27", 26)} ></input>
+            <input id="28" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("28", 26)}></input>
+            <input id="29" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("29", 26)}></input>
+            <input id="30" type="text" className="grid-item" maxLength="1" onChange={() => checkLetter("30", 26)}></input>
+        </form>
+
+        
+        <div className="bad-letters-container">
+            <input id="b1" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b2" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b3" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b4" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b5" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b6" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b7" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b8" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b9" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b10" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b11" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b12" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b13" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b14" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b15" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b16" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b17" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b18" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b19" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b20" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b21" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <i className="fa fa-sign-in icon" backgroundColor="white" onClick={() => submitGuess()}></i> 
+            <input id="b22" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b23" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b24" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b25" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <input id="b26" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
+            <i className="fa-solid fa-delete-left icon" onClick={() => backUp()}></i>
+            </div>
+        </>
+    )  
+}
+
+export default Game;
