@@ -7,7 +7,7 @@ body {
     background-color: darkblue;
     color: white;
     display: flex;
-    justify-content: right;
+    justify-content: left;
     height: 75px;
     align-items: center;
     font-size: 30px;
@@ -16,7 +16,7 @@ body {
   .nav-list {
     list-style-type: none;
     justify-content: right;
-    display: inline-block;
+    
   }
   
   .nav-list,
@@ -93,11 +93,7 @@ body {
     text-shadow: 0 0 0 #030c13;
   }
 
- .icon {
-    padding-left: 20px;
-    padding-top: 15px;
-    min-width: 20px;
-}
+  
 
 
 

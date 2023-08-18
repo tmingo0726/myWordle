@@ -1,4 +1,7 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { storeCurrentPlayer, clearCurrentPlayer, getCurrentPlayer } from '../auth/utility';
+
 
 const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 let currentWord = "";
@@ -6,18 +9,16 @@ let colorArray = [5];
 let currentIndex = 0;
 
 
-const Game = (props) => {
 
-    const currentUser = props.currentUser;
-    const currentRow = props.currentRow;
-    const currentLetter = props.currentLetter;
-    const setCurrentLetter = props.setCurrentLetter;
+const Game = (props) => {
 
     let badLetterArray = [];
     let twoDArray =  new Array(2);
     let letterToCheck = '';
     
-    
+    let currentPlayer = getCurrentPlayer();
+    let navigate = useNavigate();
+
     useEffect(() => {
 
         //On the first time in I need to disable all rows except for the first row.
@@ -37,6 +38,7 @@ const Game = (props) => {
             document.getElementById(indexStr).value = alphabet[i];
         }
 
+       
         //Now let's grab a random 5 letter word
         //First let's check to see if the word entered is a real word
         const grabWord = async() => {
@@ -287,9 +289,17 @@ const Game = (props) => {
         }
     }
 
+    const viewStats = () => {
+
+        console.log("Inside view stats");
+        navigate('/profile');
+
+    }
+
     return(
         <>
-        <h1>Current Player : {currentUser}</h1>
+
+        <h1>Current Player : {currentPlayer}</h1>
         <hr></hr>
         <form className="guess-container">
             <input id="1" type="text" className="grid-item" maxLength="1" onChange={() => nextLetter(1)}></input>
@@ -347,14 +357,19 @@ const Game = (props) => {
             <input id="b19" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
             <input id="b20" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
             <input id="b21" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
-            <i className="fa fa-sign-in icon" backgroundColor="white" onClick={() => submitGuess()}></i> 
+            <i className="fa fa-sign-in icon" backgroundcolor="white" onClick={() => submitGuess()}></i> 
             <input id="b22" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
             <input id="b23" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
             <input id="b24" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
             <input id="b25" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
             <input id="b26" tabIndex="-1" type="text" className="badletter" maxLength="1"></input>
             <i className="fa-solid fa-delete-left icon" onClick={() => backUp()}></i>
-            </div>
+        </div>
+
+        <div>
+            <button onClick={viewStats}>View Stats</button>    
+        </div>
+
         </>
     )  
 }
