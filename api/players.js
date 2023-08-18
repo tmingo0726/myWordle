@@ -30,6 +30,7 @@ playersRouter.post("/login", async (req, res, next) => {
 
       res.send({
         player: player.username,
+        id: player.id,
         success: true,
         message: "Login successful.",
         

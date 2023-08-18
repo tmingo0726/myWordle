@@ -66,6 +66,7 @@ const getPlayer = async ({ username, password }) => {
     
   }
 
+  
   module.exports = {
     getPlayer,
     getPlayerByUsername,

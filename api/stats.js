@@ -2,8 +2,11 @@ const express = require("express");
 const statsRouter = express.Router();
 const {
   getStatsById,
-  
+  updateStatsByPlayerId,
+  createInitialDBStatsRecord,
 } = require("../db/stats");
+
+
 const { getPlayerByUsername } = require("../db/player");
 
 // Get all games for player passed in
@@ -38,6 +41,33 @@ statsRouter.get('/:player', async (req, res, next) => {
     next({ error, message });
   }
   
+});
+
+
+statsRouter.patch('/:guess', async (req, res, next) => {
+
+  const { username } = req.body;
+  const winningGuess = req.params.guess;
+
+  console.log("PATCH CALL AND PLAYER IS", username);
+  const record = await getPlayerByUsername(username);
+  console.log("Record is", record, " and winning guess is ", winningGuess);
+
+  if (record) {
+    updateStatsByPlayerId(record.id, winningGuess);
+  }
+
+});
+
+statsRouter.post("/:playerid", async (req, res, next) => {
+
+  const { username, password } = req.body;
+  const id = req.params.playerid;
+
+  console.log("PLAYER ID PASSED INTO statsRouter POST for initial record is ", id);
+  createInitialDBStatsRecord(id);
+
+
 });
 
 module.exports = statsRouter;

@@ -27,6 +27,23 @@ const Login = (props) => {
     //clearCurrentUser();
   }
 
+  const createGamesDBEntry = async (playerid) => {
+
+    const response = await fetch(`${path}/stats/${playerid}`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(
+        {
+          username: document.getElementById("username").value,
+          password: document.getElementById("password").value
+        }
+      )
+    });
+
+  }
+
   const handlerUserLogin = async () => {
 
     console.log("User name and password are ", document.getElementById("username").value, document.getElementById("password").value);
@@ -60,6 +77,8 @@ const Login = (props) => {
         storeCurrentPlayer(data.player);
         setloginstr("Log Out");
         setLoggedIn(true);
+        //Create an initial games played record in the games DB with every field = 0
+        createGamesDBEntry(data.id);
         //storeCurrentToken(data.token);
         navigate('/game');  
     }

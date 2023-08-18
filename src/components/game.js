@@ -19,6 +19,8 @@ const Game = (props) => {
     let currentPlayer = getCurrentPlayer();
     let navigate = useNavigate();
 
+    const path = "http://localhost:4000/api";
+
     useEffect(() => {
 
         //On the first time in I need to disable all rows except for the first row.
@@ -207,6 +209,34 @@ const Game = (props) => {
         
     }
 
+    const determineWinningGuess = (end) => {
+
+        console.log("END IS ", end);
+        switch (Number(end)) {
+
+            case 5:
+                return "oneguess";
+                
+            case 10:
+                return "twoguess";
+                
+            case 15:
+                return "threesguess";
+                
+            case 20:
+                return "fourguess";
+                
+            case 25:
+                return "fiveguess";
+                
+            case 30:
+                return "sixguess";
+                
+            default:
+                return "failedguess";
+        }
+
+    }
     const checkGuess = async(end, subtractor) => {
 
         let letterToCheck = document.getElementById(end).value;
@@ -240,7 +270,21 @@ const Game = (props) => {
                 //document.getElementById(i).style.backgroundColor = "gray";
                 document.getElementById(i).disabled = true;
             }
-            //alert("Great job " + currentUser + " you solved the puzzle!");
+            //Post game to games database for this player
+            let winningGuess = determineWinningGuess(end);
+            const response = await fetch(`${path}/stats/${winningGuess}`, {
+                method: "PATCH",
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                  {
+                    username: currentPlayer
+                    //password: document.getElementById("password").value
+                  }
+                )
+            });
+            
         }
         
     }
