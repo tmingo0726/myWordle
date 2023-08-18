@@ -7,6 +7,8 @@ const Login = (props) => {
 
   const currentPlayer = props.currentPlayer;
   const setCurrentPlayer = props.setCurrentPlayer;
+  const setloginstr = props.setloginstr;
+  const setLoggedIn = props.setLoggedIn;
   const token = props.token;
   const setToken = props.setToken;
 
@@ -51,11 +53,13 @@ const Login = (props) => {
         document.getElementById("username").value = "";
         document.getElementById("password").value = "";
         document.getElementById("username").focus();
-        
+        //setloginstr("Log In");
     } else {
         alert(data.message);
         //setToken(data.token);
         storeCurrentPlayer(data.player);
+        setloginstr("Log Out");
+        setLoggedIn(true);
         //storeCurrentToken(data.token);
         navigate('/game');  
     }

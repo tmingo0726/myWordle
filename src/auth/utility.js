@@ -12,6 +12,7 @@ function storeCurrentPlayer(player) {
 
   }
 
+  
   function storeCurrentToken(token) {
     localStorage.setItem('currentToken', JSON.stringify(token));
   }
@@ -34,4 +35,5 @@ function storeCurrentPlayer(player) {
     storeCurrentPlayer,
     getCurrentPlayer,
     clearCurrentPlayer,
+    
     }

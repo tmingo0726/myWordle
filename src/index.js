@@ -9,33 +9,35 @@ import Login from './components/login';
 import Register from './components/register';
 import { clearCurrentPlayer, getCurrentPlayer, storeCurrentPlayer } from './auth/utility';
 
-
+//let loginstr;
 
 const App = () => {
 
     const [currentPlayer, setCurrentPlayer] = useState("");
     const [currentRow, setCurrentRow] = useState(1);
     const [currentLetter, setCurrentLetter] = useState('');
-    const [loggedIn, setLoggedIn] = useState(false);
-    
-    
-    let loginstr = "Log In";
+    const [loggedIn, setLoggedIn] = useState(getCurrentPlayer() ? true : false);
+    const [loginstr, setloginstr] = useState("Log In");
 
+    let navigate = useNavigate();
+    
+    
     useEffect(() => {
 
-        //setCurrentRow(currentRow);
-        //setCurrentLetter('');
-        //setLoginStr(logInStr);
+        console.log("in useEffect and loginstr is", loginstr);
+
+        if (loggedIn) {
+            console.log("HERE 1");
+            setLoggedIn(true);
+            setloginstr("Log Out");
+        } else {
+            console.log("HERE 2");
+            setloginstr("Log In");
+            setLoggedIn(false);
+        }
         
-    });//, [logInStr]);
-
-    const LogInLogOut = () => {
-
-        console.log("Inside LogInLogOut");
-
-
-    }
-
+        
+    }, [loginstr]);
 
     const setLoginStr = () => {
 
@@ -43,30 +45,13 @@ const App = () => {
             console.log("Changing menu option to Log In");
             setLoggedIn(false);
             clearCurrentPlayer();
-            loginstr = "Log In";
-            
+            setloginstr("Log In");
+            navigate('./login');
         } else {
             console.log("Changing menu option to Log Out");
             setLoggedIn(true);
-            
-           // clearCurrentPlayer();
-            loginstr = "Log In";
+            setloginstr("Log Out");
         }
-
-        /*
-        let player = getCurrentPlayer();
-        if (player) {
-            console.log("checking the login user info", player);
-            storeCurrentPlayer(player);
-            setLoggedIn(true);
-            setLogInStr("Log Out");
-            //setToken(null);
-        } else {
-            console.log("Changing menu option to Log In");
-            setLoggedIn(false);
-            setLogInStr("Log In");
-            clearCurrentPlayer();
-        }*/
     }
 
     
@@ -85,7 +70,7 @@ const App = () => {
 
            <Routes>
               <Route  path='/about' element={<About />}></Route>
-              <Route  path='/login' element={<Login currentPlayer={currentPlayer} setCurrentPlayer={setCurrentPlayer}/>}></Route>
+              <Route  path='/login' element={<Login currentPlayer={currentPlayer} setCurrentPlayer={setCurrentPlayer} setloginstr={setloginstr} setLoggedIn={setLoggedIn}/>}></Route>
               <Route  path='/register' element={<Register currentPlayer={currentPlayer} setCurrentPlayer={setCurrentPlayer}/>}></Route>
               <Route  path='/game' element={<Game currentPlayer={currentPlayer} setCurrentPlayer={setCurrentPlayer} currentRow={currentRow}
                                             currentLetter={currentLetter} setCurrentLetter={setCurrentLetter}/>}></Route>
