@@ -34,6 +34,7 @@ const Profile = (props) => {
   useEffect(() => {
 
     getStats(currentPlayer);
+    setUserData(userData);
     
   }, [totalGames, userData]);
 

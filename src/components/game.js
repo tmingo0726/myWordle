@@ -194,13 +194,13 @@ const Game = (props) => {
                 colorArray[i] = "G";
             } else if (currentWord.indexOf(guessWord[i]) == -1) {
                 colorArray[i] = "B";
-            } else if (retVal > 1) {
-                colorArray[i] = "Y";
             } else if (retVal == 1 && letterFoundPreviously(i, guessWord[i], guessWord)) {
                 console.log("Letter found previously");
                 colorArray[i] = "B";
             } else if (retVal == 1 && !letterFoundPreviously(i, guessWord[i], guessWord)) {
                 console.log("Letter NOT found previously");
+                colorArray[i] = "Y";
+            } else if (retVal > 1) {
                 colorArray[i] = "Y";
             } else {
                 console.log("WHAT OTHER OPTION EXISTS");
