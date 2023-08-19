@@ -5,17 +5,13 @@ import PieChart from "./piechart";
 import {Chart, ArcElement} from 'chart.js';
 Chart.register(ArcElement);
 
-
 let totalGames = 0;
 let successRate = 0;
-
-
 let oneguess, twoguess, threeguess, fourguess, fiveguess, sixguess, failedguess;
 
 
 const Profile = (props) => {
 
-  
   const [userData, setUserData] = useState({
     labels: ['1 Guess', '2 Guess', '3 Guess', '4 Guess', '5 Guess', '6 Guess', 'Failed Guess'],
     datasets: [{
@@ -27,16 +23,15 @@ const Profile = (props) => {
 
   const path = "http://localhost:4000/api";
   
-
   const currentPlayer = getCurrentPlayer();  
   console.log("Inside profile page and current player is ", currentPlayer);
 
   useEffect(() => {
 
+    console.log("In useEffect for profile", userData);
     getStats(currentPlayer);
-    setUserData(userData);
-    
-  }, [totalGames, userData]);
+           
+  }, []);
 
   const getStats = async (player) => {
 
@@ -61,6 +56,14 @@ const Profile = (props) => {
         fiveguess = data.data.fiveguess;
         sixguess = data.data.sixguess;
         failedguess = data.data.failedguess;
+        setUserData({
+          labels: ['1 Guess', '2 Guess', '3 Guess', '4 Guess', '5 Guess', '6 Guess', 'Failed Guess'],
+          datasets: [{
+            label: "Guess Distribution",
+            data: [oneguess, twoguess, threeguess, fourguess, fiveguess, sixguess, failedguess],
+            backgroundColor: ['green', 'blue', 'red', 'brown', 'purple', 'yellow', 'orange']}]
+        });
+        
       } else {
         alert("The logged in Player has played no games");
       }
@@ -69,7 +72,7 @@ const Profile = (props) => {
   
   return (
         <div style={{color:'black'}}>
-          <h2>Welcome to the {currentPlayer} Profile Page</h2>
+          <h2>Welcome to the {currentPlayer} Game Stats Page</h2>
           <h3>Total Games Played: {totalGames}</h3>
           <h3>Success Rate: {successRate}%</h3>
           <div style={{ width: 750, backgroundColor: "whitesmoke"}}>

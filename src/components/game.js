@@ -7,6 +7,10 @@ const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm
 let currentWord = "";
 let colorArray = [5];
 let currentIndex = 0;
+let totalGames = 0;
+let successRate = 0;
+let userData = [];
+let oneguess, twoguess, threeguess, fourguess, fiveguess, sixguess, failedguess;
 
 
 
@@ -52,6 +56,7 @@ const Game = (props) => {
         }
         
         grabWord();
+        document.getElementById("statsButton").disabled = true;
         //currentWord = "ANGLE";
 
 
@@ -271,6 +276,7 @@ const Game = (props) => {
                 document.getElementById(i).disabled = true;
             }
             //Post game to games database for this player
+            document.getElementById("statsButton").disabled = false;
             let winningGuess = determineWinningGuess(end);
             const response = await fetch(`${path}/stats/${winningGuess}`, {
                 method: "PATCH",
@@ -284,9 +290,7 @@ const Game = (props) => {
                   }
                 )
             });
-            
         }
-        
     }
 
     const buildGuessWord = (end) => {
@@ -335,7 +339,6 @@ const Game = (props) => {
 
     const viewStats = () => {
 
-        console.log("Inside view stats");
         navigate('/profile');
 
     }
@@ -411,7 +414,7 @@ const Game = (props) => {
         </div>
 
         <div>
-            <button onClick={viewStats}>View Stats</button>    
+            <button id="statsButton" onClick={viewStats}>View Stats</button>    
         </div>
 
         </>
@@ -419,3 +422,4 @@ const Game = (props) => {
 }
 
 export default Game;
+export {totalGames, successRate, userData};

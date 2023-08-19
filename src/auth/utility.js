@@ -27,7 +27,7 @@ function storeCurrentPlayer(player) {
 
   }
 
- 
+   
   module.exports = {
     storeCurrentToken,
     getCurrentToken,

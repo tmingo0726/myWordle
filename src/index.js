@@ -18,6 +18,7 @@ const App = () => {
     const [currentLetter, setCurrentLetter] = useState('');
     const [loggedIn, setLoggedIn] = useState(getCurrentPlayer() ? true : false);
     const [loginstr, setloginstr] = useState("Log In");
+    const [currentData, setCurrentData] = useState();
 
     let navigate = useNavigate();
     
@@ -74,7 +75,7 @@ const App = () => {
               <Route  path='/register' element={<Register currentPlayer={currentPlayer} setCurrentPlayer={setCurrentPlayer}/>}></Route>
               <Route  path='/game' element={<Game currentPlayer={currentPlayer} setCurrentPlayer={setCurrentPlayer} currentRow={currentRow}
                                             currentLetter={currentLetter} setCurrentLetter={setCurrentLetter}/>}></Route>
-              <Route  path='/profile' element={<Profile currentPlayer={currentPlayer}/>}></Route>                              
+              <Route  path='/profile' element={<Profile currentPlayer={currentPlayer} currentData={currentData}/>}></Route>                              
 
            </Routes>
         </div>

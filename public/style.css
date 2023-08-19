@@ -132,6 +132,16 @@ input[type="text"] , input[type="password"], input[type="submit"] {
   background: linear-gradient(#eeefef, #ffffff 10%);
 }
 
+#statsButton {
+  background-color: #3B4CCA;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
 
 
  
