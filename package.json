@@ -13,7 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "arc": "^0.1.4",
-    "axios": "^1.1.3",
+    "axios": "^1.5.0",
     "chart.js": "^4.3.3",
     "cors": "^2.8.5",
     "db": "^4.0.1",

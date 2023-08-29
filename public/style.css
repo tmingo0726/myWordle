@@ -1,6 +1,24 @@
 body {
 
-    background-color: rgb(18, 87, 155);
+    background-color: rgb(85, 245, 82);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+#products-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 10px;
+}
+
+.product-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  max-width: calc(100% * (1/5) - 5px);
 }
 
 .navbar {
@@ -143,5 +161,28 @@ input[type="text"] , input[type="password"], input[type="submit"] {
   opacity: 0.9;
 }
 
+.card:hover {
+  cursor: pointer;
+  transform: rotate(3deg) scale(1.1);
+
+  box-shadow: 
+  0 0 13px 4px rgba(255,255,255,0.3),
+  0 35px 50px -5px rgba(0, 0, 0, 0.5);
+}
+
+.card {
+/* background-color: black; */
+border-radius: 10px;
+/* padding: 3px; */
+margin-bottom: 8px;
+max-width: 250px;
+max-height: 360px;
+}
+
+.caption {
+  font-family: Arial;
+  font-weight: bolder;
+  align-items: center;
+}
 
  

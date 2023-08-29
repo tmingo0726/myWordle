@@ -132,6 +132,13 @@ input[type="text"] , input[type="password"], input[type="submit"] {
   background: linear-gradient(#eeefef, #ffffff 10%);
 }
 
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  [class*="col-"] {
+    width: 100%;
+  }
+}
+
 
 
  

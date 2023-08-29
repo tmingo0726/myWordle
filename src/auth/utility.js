@@ -12,6 +12,20 @@ function storeCurrentPlayer(player) {
 
   }
 
+  function storeCurrentIngredient(ingredient) {
+    localStorage.setItem('currentIngredient', JSON.stringify(ingredient));
+  }
+
+  function getCurrentIngredient() {
+    const ingredient = JSON.parse(localStorage.getItem('currentIngredient'));
+    return ingredient;
+  }
+  
+  function clearCurrentIngredient() {
+    localStorage.removeItem('currentIngredient');
+
+  }
+
   
   function storeCurrentToken(token) {
     localStorage.setItem('currentToken', JSON.stringify(token));
@@ -35,5 +49,7 @@ function storeCurrentPlayer(player) {
     storeCurrentPlayer,
     getCurrentPlayer,
     clearCurrentPlayer,
-    
+    storeCurrentIngredient,
+    clearCurrentIngredient,
+    getCurrentIngredient,
     }

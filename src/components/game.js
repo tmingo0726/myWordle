@@ -56,7 +56,7 @@ const Game = (props) => {
         }
         
         grabWord();
-        document.getElementById("statsButton").disabled = true;
+        //document.getElementById("statsButton").disabled = true;
         //currentWord = "ANGLE";
 
 

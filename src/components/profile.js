@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { storeCurrentPlayer, clearCurrentPlayer, getCurrentPlayer } from '../auth/utility';
 import PieChart from "./piechart";
+import BarChart from "./barchart";
 import {Chart, ArcElement} from 'chart.js';
 Chart.register(ArcElement);
 
@@ -23,7 +24,8 @@ const Profile = (props) => {
 
   const path = "http://localhost:4000/api";
   
-  const currentPlayer = getCurrentPlayer();  
+  const currentPlayer = getCurrentPlayer();
+  const navigate = useNavigate();  
   console.log("Inside profile page and current player is ", currentPlayer);
 
   useEffect(() => {
@@ -69,14 +71,26 @@ const Profile = (props) => {
       }
       
   }
-  
+
+ const playGame = () => {
+
+  navigate('/game');
+
+ }
   return (
         <div style={{color:'black'}}>
           <h2>Welcome to the {currentPlayer} Game Stats Page</h2>
           <h3>Total Games Played: {totalGames}</h3>
+          <div>
           <h3>Success Rate: {successRate}%</h3>
+          <button id="playgame" onClick={playGame}>Play Another Game</button>
+          </div>
+          
           <div style={{ width: 750, backgroundColor: "whitesmoke"}}>
             <PieChart chartData={userData}/>
+          </div>
+          <div style={{ width: 750, backgroundColor: "whitesmoke"}}>
+            <BarChart chartData={userData}/>
           </div>
         </div>
   )
