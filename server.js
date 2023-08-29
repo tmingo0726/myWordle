@@ -1,4 +1,4 @@
-//require("dotenv").config();
+require("dotenv").config();
 const client = require("./db/client");
 const chalk = require('chalk');
 const cors = require("cors");

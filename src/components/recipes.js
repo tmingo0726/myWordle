@@ -6,6 +6,8 @@ import { storeCurrentIngredient, clearCurrentIngredient, getCurrentIngredient } 
 
 const container = document.getElementById("app");
 let query = "";
+const appId = process.env.REACT_APP_APP_ID;
+const apiKey = process.env.REACT_APP_API_KEY;
 
 
 const Recipes = (props) => {
@@ -32,7 +34,7 @@ const Recipes = (props) => {
         storeCurrentIngredient(query);
 
         //API URL
-        
+        const API_URL = `https://api.edamam.com/search?q=${query}&app_id=${appId}&app_key=${apiKey}`;
         
         fetch(API_URL)
             .then((response) => {
