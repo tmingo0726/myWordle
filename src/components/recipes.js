@@ -61,7 +61,9 @@ const Recipes = (props) => {
 
         <div>
 
-            <label htmlFor="ingredient">Main Ingredient: </label>
+            <div id="ingrContainer">
+            <label id="ingrLabel" htmlFor="ingredient">Main Ingredient: </label>
+            
             <input
                 id="ingredient"
                 name="ingredient"
@@ -70,6 +72,7 @@ const Recipes = (props) => {
                 placeholder="Enter Main Ingredient"
                 required
             ></input>
+            </div> 
             <div id="products-wrapper">
             {
                 allFoods.map((product, i) => {

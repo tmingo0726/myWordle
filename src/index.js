@@ -65,10 +65,10 @@ const App = () => {
             <h1>Mingo's Wordle</h1>
             <nav className="navbar">
               <ul className="nav-list">
-                {/*<li className="list-item"><Link to="/game">Game  </Link></li>*/}
+                <li className="list-item"><Link to="/game">Wordle  </Link></li>
                 {/*<li className="list-item"><Link to="/profile">Profile </Link></li>*/}
-                <li className="list-item" onClick={setLoginStr}><Link to="/login">{loginstr} </Link></li>
                 <li className="list-item"><Link to="/recipes">Recipes  </Link></li>
+                <li className="list-item" onClick={setLoginStr}><Link to="/login">{loginstr} </Link></li>
                 {/*<li className="list-item"><Link to="/register">Register  </Link></li>*/}
                 {/*<li className="list-item"><Link to="/about">About </Link></li>*/}
               </ul>

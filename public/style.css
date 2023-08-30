@@ -106,7 +106,7 @@ body {
   }
 
   input {
-
+    text-align: center;
     color: transparent;
     text-shadow: 0 0 0 #030c13;
   }
@@ -183,6 +183,30 @@ max-height: 360px;
   font-family: Arial;
   font-weight: bolder;
   align-items: center;
+}
+
+#ingredient {
+
+  width: 150px;
+}
+
+#ingrLabel {
+  display: inline-block;
+  width: 150px;
+  text-align: right;
+  font-size: larger;
+  font-weight: bolder;
+}
+
+input {
+  margin: 0;
+  width: 150px;
+}
+
+#ingrContainer {
+
+  text-align: center;
+  padding-top: 10px;
 }
 
  

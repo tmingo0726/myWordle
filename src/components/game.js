@@ -27,6 +27,17 @@ const Game = (props) => {
 
     useEffect(() => {
 
+        if (!currentPlayer) {
+            alert("Login or Create an account to keep track of your Wordle stats.");
+        }
+
+        resetLetters();
+        
+
+    }, []);
+
+    const resetLetters = () => {
+
         //On the first time in I need to disable all rows except for the first row.
         //As a player finishes a row, only the next row gets enabled.
         for (let i = 6; i <= 30; i++) {
@@ -59,9 +70,7 @@ const Game = (props) => {
         //document.getElementById("statsButton").disabled = true;
         //currentWord = "ANGLE";
 
-
-    }, []);
-
+    }
     const moveCursor = (index) => {
 
         //console.log("Tab Index for this element is ", document.activeElement.tabindex);
@@ -339,7 +348,12 @@ const Game = (props) => {
 
     const viewStats = () => {
 
-        navigate('/profile');
+       if (currentPlayer) {
+            navigate('/profile');
+       } else {
+            alert("Play Again?");
+            resetLetters();
+       }
 
     }
 
