@@ -53,7 +53,7 @@ const Recipes = (props) => {
 
     const saveIngredient = () => {
 
-        
+        console.log("Inside save ingredient");
 
     }
 
